@@ -71,7 +71,7 @@ push-to-devdev:
         tags:
                 - helm-repoman
         script:
-                - git remote add devdev https://gitlab.com/ska-telescope/dev.developer.skatelescope.org.git
+                # - git remote add devdev https://gitlab.com/ska-telescope/dev.developer.skatelescope.org.git
                 - git remove -v
 
                 #- git push devdev HEAD:master
