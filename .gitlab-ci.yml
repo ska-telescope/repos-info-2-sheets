@@ -71,7 +71,8 @@ push-to-devdev:
         tags:
                 - helm-repoman
         script:
-                - echo $(git branch)
+                - git remote add devdev https://gitlab.com/ska-telescope/dev.developer.skatelescope.org.git
+                - git push devdev HEAD:master
 
 publish-chart:
   stage: helm-publish
