@@ -17,12 +17,17 @@ class ReadtheDocs:
         self.headers['Content-Type'] = "application/json"
 
     def get_projects_for_user(self):
+        all_projects = []
         url = self.base_url + 'projects'
-        # TODO: pagination?
         response = requests.get(url, headers=self.headers)
         result = response.json()
-
-        all_projects = result['results']
+        all_projects.extend(result['results'])
+        # check pagination
+        while(result['next'] is not None):
+            url = url + result['next'].split("/api/v3/projects",1)[1] # split the next link (/api/v3/projects/?limit....)
+            response = requests.get(url, headers=self.headers)
+            result = response.json()
+            all_projects.extend(result['results'])
 
         return all_projects
 
