@@ -24,7 +24,7 @@ class ReadtheDocs:
         all_projects.extend(result['results'])
         # check pagination
         while(result['next'] is not None):
-            url = url + result['next'].split("/api/v3/projects",1)[1] # split the next link (/api/v3/projects/?limit....)
+            url = result['next']
             response = requests.get(url, headers=self.headers)
             result = response.json()
             all_projects.extend(result['results'])
@@ -41,5 +41,36 @@ class ReadtheDocs:
         payload = json.dumps(body)
         response = requests.post(url, data=payload, headers=self.headers)
         return response
+
+    def update_project(self, slug, name, repo_url, language, programming_language):
+        url = self.base_url + 'projects/' + slug +'/'
+        self.extend_headers()
+        body = {
+            "name": name,
+            "repository": {
+                "url": repo_url,
+                "type": "git"
+            },
+            "language": language,
+            "programming_language": programming_language
+        }
+        payload = json.dumps(body)
+        response = requests.patch(url, data=payload, headers=self.headers)
+        return response
+
+    def get_subprojects(self, parent):
+        sub_projects = []
+        url = self.base_url + 'projects/' + parent + '/subprojects/'
+        self.extend_headers()
+        response=requests.get(url=url, headers=self.headers)
+        result=response.json()
+        sub_projects.extend(result['results'])
+        # check pagination
+        while(result['next'] is not None):
+            url = result['next']
+            response = requests.get(url, headers=self.headers)
+            result = response.json()
+            sub_projects.extend(result['results'])
+        return sub_projects
 
 
