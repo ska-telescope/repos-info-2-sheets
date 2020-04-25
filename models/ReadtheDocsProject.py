@@ -2,6 +2,7 @@ import json
 import requests
 
 from readthedocs.readthedocs import ReadtheDocs
+import time
 
 
 class ReadthedocsProject:
@@ -76,12 +77,12 @@ class ReadthedocsProject:
         else:
             parent = "developerskatelescopeorg"
 
-        try:
-            alias = str.replace(self.slug, "ska-telescope-", "")
-            # rtd.make_subproject(parent=parent, child=self.slug, alias=alias) # make subproject
-        except Exception as e:
-            print(e)
-            result = e
+        # try:
+        #     alias = str.replace(self.slug, "ska-telescope-", "")
+        #     # rtd.make_subproject(parent=parent, child=self.slug, alias=alias) # make subproject
+        # except Exception as e:
+        #     print(e)
+        #     result = e
 
         return result
 
@@ -93,7 +94,7 @@ class ReadthedocsProject:
             if response.status_code != 204:
                 result = response.reason
             else:
-                result = json.loads(response.text)
+                result = response.status_code
         except Exception as e:
             print(e)
             result = e
@@ -160,19 +161,17 @@ def list_of_developerportal_subprojects():
     return sub_projects
 
 
-def make_subprojects(parent="developerskatelescopeorg", project_slugs=['my-mac']):
+def make_subprojects(parent="developerskatelescopeorg", projects = {}):
     """ Make subprojects of each of the ReadtheDocs projects in the list projects
 
     @:param: projects: list of slugs of projects to be made subprojects
     @:param: parent: parent project
     """
 
-    if project_slugs is None:
-        project_slugs = []
-
     readthedocs = ReadtheDocs()
-    for slug in project_slugs:
-        print(readthedocs.make_subproject(parent, slug, slug).status_code)
+    for slug, alias in projects.items():
+        time.sleep(2)
+        print(f"{slug}->{alias}: {readthedocs.make_subproject(parent, slug, alias).status_code}")
 
 
 def create_readthedocs_project(name_with_namespace, repository, prog_lang, lang, test_sub):
