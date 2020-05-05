@@ -5,6 +5,7 @@
 
 stages:
   - helm-publish
+  # - create_ci_metrics
 
 ## ============================================================================
 ## Common settings for building docker images
@@ -46,22 +47,6 @@ stages:
 #    paths: [docs/build/html/]
 #    expire_in: 1 day
 #
-#create_ci_metrics:
-#  stage: .post
-#  image: nexus.engageska-portugal.pt/ska-docker/ska-python-buildenv:latest
-#  when: always
-#  tags: []
-#  script:
-#    # Gitlab CI badges creation: START
-#    - apt-get -y update
-#    - apt-get install -y curl --no-install-recommends
-#    - curl -s https://gitlab.com/ska-telescope/ci-metrics-utilities/raw/master/scripts/ci-badges-func.sh | sh
-#    # Gitlab CI badges creation: END
-#  artifacts:
-#    paths:
-#      - ./build
-
-
 publish-chart:
   stage: helm-publish
   when: manual
@@ -73,3 +58,19 @@ publish-chart:
     - cd charts
     - if [ $CHART_NAME == 'all' ]; then for d in */; do helm package "$d"; done; else helm package $CHART_NAME; fi
     - for f in *.tgz; do curl -v -u $HELM_USERNAME:$HELM_PASSWORD --upload-file $f $HELM_HOST/repository/helm-chart/$f; rm $f; done
+
+create_ci_metrics:
+ stage: .post
+ image: nexus.engageska-portugal.pt/ska-docker/ska-python-buildenv:latest
+ when: always
+ tags: []
+ script:
+   # Gitlab CI badges creation: START
+   - apt-get -y update
+   - apt-get install -y curl --no-install-recommends
+  #  - curl -s https://gitlab.com/ska-telescope/ci-metrics-utilities/raw/master/scripts/ci-badges-func.sh | sh
+   # Gitlab CI badges creation: END
+#  artifacts:
+#    paths:
+#      - ./build
+
