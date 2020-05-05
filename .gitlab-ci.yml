@@ -63,7 +63,8 @@ create_ci_metrics:
  stage: .post
  image: nexus.engageska-portugal.pt/ska-docker/ska-python-buildenv:latest
  when: always
- tags: []
+ tags: 
+  - ska-docker
  script:
    # Gitlab CI badges creation: START
    - apt-get -y update
