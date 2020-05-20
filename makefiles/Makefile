@@ -10,7 +10,7 @@ XAUTHORITYx ?= ${XAUTHORITY}
 # define overides for above variables in here
 -include PrivateRules.mak
 
-.PHONY: vars k8s apply logs rm show deploy deploy_all delete ls podlogs namespace namespace_sdp help
+.PHONY: vars help
 .DEFAULT_GOAL := help
 
 vars: ## Display variables - pass in DISPLAY and XAUTHORITY
@@ -25,3 +25,4 @@ help:  ## show this help.
 
 #################################################################################################################################################
 
+-include core-cluster.mk
