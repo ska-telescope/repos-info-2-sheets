@@ -9,8 +9,8 @@ cache:
 
 stages:
   - publish
-  - test
   - docs
+  - test
 
 test-run-from-tag:
   stage:
