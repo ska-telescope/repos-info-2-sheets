@@ -146,11 +146,12 @@ function releaseSKAMPI() {
   release_notes=$(getReleaseDescription)
   private_token=$(awk -F= '/^private_token=/{print $2}' .release)
   data1=('{ "name": "'$name'", "tag_name": "'$tag_name'", "description": "'"$release_notes"'"}')
+  echo "CI_PROJECT_ID = $CI_PROJECT_ID"
   result=$(curl --header 'Content-Type: application/json' \
                 --header  "PRIVATE-TOKEN: "$private_token \
                 --data "$data1" \
                 --request POST https://gitlab.com/api/v4/projects/"$CI_PROJECT_ID"/releases)
-  echo $result
+  echo "result = $result"
 }
 
 # Delete released SKAMPI-prototype with version given in .release file
