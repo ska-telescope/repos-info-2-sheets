@@ -177,17 +177,17 @@ function releaseSKAMPIIfNoError() {
   echo "CHECKING IF THIS RELEASE ALREADY EXISTS. IF IT DOES NOT EXISTS, IT WILL GIVE KeyError: 'tag_name' (EXPECTED BEHAVIOUR)."
   releaseAlreadyExists=$(curl --header "PRIVATE-TOKEN: "$private_token "https://gitlab.com/api/v4/projects/""$CI_PROJECT_ID""/releases/""$tag_name" | \
   python3 -c "import sys, json; print(json.load(sys.stdin)['tag_name'])")
-  if [ "$releaseAlreadyExists" == "$tag_name" ]
-  then
-    echo "THIS RELEASE IS ALREADY EXISTS. NEW RELEASE WITH SAME VERSION IS NOT POSSIBLE."
-  else
-    echo "RELEASING SKAMPI..."
-    releaseSKAMPI
-    checkReleaseExists=$(curl --header "PRIVATE-TOKEN: "$private_token "https://gitlab.com/api/v4/projects/""$CI_PROJECT_ID""/releases/""$tag_name" | \
-    python3 -c "import sys, json; print(json.load(sys.stdin)['tag_name'])")
-    if [ "$checkReleaseExists" != "$tag_name" ]; then
-        deleteTag 
+  #if [ "$releaseAlreadyExists" == "$tag_name" ]
+  #then
+  #  echo "THIS RELEASE IS ALREADY EXISTS. NEW RELEASE WITH SAME VERSION IS NOT POSSIBLE."
+  #else
+  #  echo "RELEASING SKAMPI..."
+  #  releaseSKAMPI
+  #  checkReleaseExists=$(curl --header "PRIVATE-TOKEN: "$private_token "https://gitlab.com/api/v4/projects/""$CI_PROJECT_ID""/releases/""$tag_name" | \
+  #  python3 -c "import sys, json; print(json.load(sys.stdin)['tag_name'])")
+  #  if [ "$checkReleaseExists" != "$tag_name" ]; then
+  #      deleteTag 
         # deleteImageFromNexus
-    fi
-  fi
+  #  fi
+  #fi
 }
