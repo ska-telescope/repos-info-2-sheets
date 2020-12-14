@@ -145,7 +145,6 @@ function releaseSKAMPI() {
   tag_name=$(getRelease)
   release_notes=$(getReleaseDescription)
   private_token=$(awk -F= '/^private_token=/{print $2}' .release)
-  echo "The name is $name"
   data1=('{ "name": "'$name'", "tag_name": "'$tag_name'", "description": "'"$release_notes"'"}')
   result=$(curl --header 'Content-Type: application/json' \
                 --header  "PRIVATE-TOKEN: "$private_token \
@@ -164,10 +163,8 @@ function deleteSKAMPIRelease() {
 }
 
 function deleteTag() {
-  git_username=$1
-  echo "\$1: $1"
   tag=$(awk -F= '/^tag=/{print $2}' .release)
-  #git_username=$(awk -F= '/^gitlab_username=/{print $2}' .release)
+  git_username=$(awk -F= '/^gitlab_username=/{print $2}' .release)
   private_token=$(awk -F= '/^private_token=/{print $2}' .release)
   git push --delete https://"$git_username":"$private_token"@gitlab.com/ska-telescope/skampi.git "$tag"
 }
@@ -189,11 +186,7 @@ function releaseSKAMPIIfNoError() {
     checkReleaseExists=$(curl --header "PRIVATE-TOKEN: "$private_token "https://gitlab.com/api/v4/projects/""$CI_PROJECT_ID""/releases/""$tag_name" | \
     python3 -c "import sys, json; print(json.load(sys.stdin)['tag_name'])")
     if [ "$checkReleaseExists" != "$tag_name" ]; then
-        echo "ERROR WHILE RELEASING SKAMPI. TAG WILL BE DELETED."
-        echo "USERNAME: $USERNAME"
-        git_username=$1
-        echo "\$1: $1"
-        deleteTag $$USERNAME
+        deleteTag 
         # deleteImageFromNexus
     fi
   fi
