@@ -183,11 +183,11 @@ function releaseSKAMPIIfNoError() {
   else
     echo "RELEASING SKAMPI..."
     releaseSKAMPI
-  #  checkReleaseExists=$(curl --header "PRIVATE-TOKEN: "$private_token "https://gitlab.com/api/v4/projects/""$CI_PROJECT_ID""/releases/""$tag_name" | \
-  #  python3 -c "import sys, json; print(json.load(sys.stdin)['tag_name'])")
-  #  if [ "$checkReleaseExists" != "$tag_name" ]; then
-  #      deleteTag 
+    checkReleaseExists=$(curl --header "PRIVATE-TOKEN: "$private_token "https://gitlab.com/api/v4/projects/""$CI_PROJECT_ID""/releases/""$tag_name" | \
+    python3 -c "import sys, json; print(json.load(sys.stdin)['tag_name'])")
+    if [ "$checkReleaseExists" != "$tag_name" ]; then
+        deleteTag 
         # deleteImageFromNexus
-  #  fi
+    fi
   fi
 }
