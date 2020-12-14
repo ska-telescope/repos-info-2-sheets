@@ -166,7 +166,7 @@ function deleteTag() {
   tag=$(awk -F= '/^tag=/{print $2}' .release)
   git_username=$(awk -F= '/^gitlab_username=/{print $2}' .release)
   private_token=$(awk -F= '/^private_token=/{print $2}' .release)
-  git push --delete https://"$git_username":"$private_token"@gitlab.com/ska-telescope/skampi.git "$tag"
+  git push --delete https://"$git_username":"$private_token"@gitlab.com/ska-telescope/stupid.git "$tag"
 }
 
 # Create GitLab release SKAMPI with version given in .release file.
