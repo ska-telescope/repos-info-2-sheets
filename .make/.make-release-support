@@ -164,7 +164,8 @@ function deleteSKAMPIRelease() {
 
 function deleteTag() {
   tag=$(awk -F= '/^tag=/{print $2}' .release)
-  git_username=$(awk -F= '/^gitlab_username=/{print $2}' .release)
+  git_username=$1
+  echo "\$delete: $git_username"
   private_token=$(awk -F= '/^private_token=/{print $2}' .release)
   git push --delete https://"$git_username":"$private_token"@gitlab.com/ska-telescope/stupid.git "$tag"
 }
@@ -186,7 +187,8 @@ function releaseSKAMPIIfNoError() {
     checkReleaseExists=$(curl --header "PRIVATE-TOKEN: "$private_token "https://gitlab.com/api/v4/projects/""$CI_PROJECT_ID""/releases/""$tag_name" | \
     python3 -c "import sys, json; print(json.load(sys.stdin)['tag_name'])")
     if [ "$checkReleaseExists" != "$tag_name" ]; then
-        deleteTag 
+		git_username=$1
+        deleteTag $git_username
         # deleteImageFromNexus
     fi
   fi
