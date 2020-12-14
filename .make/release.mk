@@ -89,7 +89,7 @@ config-git:
 	git config --global user.email $(EMAILID)
 	git config --global user.name $(USERNAME)
 
-release-skampi: config-git create-publish-tag release-skampi-if-no-error
+release-skampi: config-git create-publish-tag #release-skampi-if-no-error
 
 delete-tag: .release
 	@. $(RELEASE_SUPPORT) ; deleteTag
