@@ -125,7 +125,7 @@ function gitPush() {
   echo "\$1: $1"
   private_token=$(awk -F= '/^private_token=/{print $2}' .release)
   echo "tag: $tag"
-  $(git push https://"$git_username":"$private_token"@gitlab.com/ska-telescope/skampi.git "$tag")
+  $(git push https://"$git_username":"$private_token"@gitlab.com/ska-telescope/stupid.git "$tag")
   result=$(echo $?)
   if [ $result -ne 0 ];
   then
