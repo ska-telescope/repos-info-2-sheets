@@ -95,4 +95,4 @@ delete-tag: .release
 	@. $(RELEASE_SUPPORT) ; deleteTag
 
 release-skampi-if-no-error: .release
-	@. $(RELEASE_SUPPORT) ; releaseSKAMPIIfNoError
+	@. $(RELEASE_SUPPORT) ; releaseSKAMPIIfNoError $$USERNAME
