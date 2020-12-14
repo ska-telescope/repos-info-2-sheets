@@ -189,5 +189,5 @@ function releaseSKAMPIIfNoError() {
   #      deleteTag 
         # deleteImageFromNexus
   #  fi
-  #fi
+  fi
 }
