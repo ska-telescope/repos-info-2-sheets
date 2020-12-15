@@ -20,13 +20,13 @@ stages:
   script:
   - &uninstall_scripts |
     echo "Uninstall_template being executed"
-    echo "DELETE == "true" (so someone means business)
+    echo "DELETE == "true" 
   only:
     refs:
       - master
       - tags
-    variables:
-      - $DELETE == "true"
+    #variables:
+    #  - $DELETE == "true"
 
 .uninstall_template_after_script: &uninstall_definition_after_script
   after_script:
