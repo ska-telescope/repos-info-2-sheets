@@ -1,5 +1,5 @@
-release=0.1.1-rc
-tag=0.1.1-rc
+release=0.1.2
+tag=0.1.2
 tag_description=This is a tag description text.
 release_notes=This release Contains: <br/><ul><li>Trying out a tag to see what happens</li></ul><br/>
-private_token=YypwSjRk8zkxLxwSM82Q
+private_token=ZssXsdZng8pTZ3QvFrv1
