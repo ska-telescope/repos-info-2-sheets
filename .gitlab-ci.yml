@@ -20,13 +20,13 @@ stages:
   script:
   - &uninstall_scripts |
     echo "Uninstall_template being executed"
-    echo "DELETE == "true" 
+    echo "DELETE == "true" #(so someone means business)
   only:
     refs:
       - master
       - tags
-    #variables:
-    #  - $DELETE == "true"
+    variables:
+      - $DELETE == "true"
 
 .uninstall_template_after_script: &uninstall_definition_after_script
   after_script:
@@ -142,7 +142,8 @@ clean_staging_low:
     refs:
       - tags
   script:
-  - *uninstall_scripts
+    - echo "cleaning staging_low"
+    #- *uninstall_scripts
   #needs:
   #  - job: tag_commit
 
@@ -154,7 +155,8 @@ clean_staging_mid:
     refs:
       - tags
   script:
-  - *uninstall_scripts
+    - echo "cleaning staging_mid"
+  #- *uninstall_scripts
   #needs:
   #  - job: tag_commit
 
