@@ -24,6 +24,7 @@ stages:
   only:
     refs:
       - master
+      - tags
     variables:
       - $DELETE == "true"
 
@@ -33,11 +34,6 @@ stages:
 
 uninstall mid:
   stage: clean
-  variables:
-    HELM_RELEASE: "test-mid"
-    KUBE_NAMESPACE: "integration-mid"
-    KUBE_NAMESPACE_SDP: "integration-mid-sdp"
-    DEPLOYMENT_CONFIGURATION: "skamid"
   <<: *uninstall_definition
   environment:
     name: "test"
@@ -46,11 +42,6 @@ uninstall mid:
 
 uninstall low:
   stage: clean
-  variables:
-    HELM_RELEASE: "test-low"
-    KUBE_NAMESPACE: "integration-low"
-    KUBE_NAMESPACE_SDP: "integration-low-sdp"
-    DEPLOYMENT_CONFIGURATION: "skalow"
   <<: *uninstall_definition
   environment:
     name: "test-low"
@@ -72,19 +63,7 @@ uninstall low:
 
 test mid:
   stage: test
-  variables:
-    HELM_RELEASE: "test-mid"
-    KUBE_NAMESPACE: "integration-mid"
-    KUBE_NAMESPACE_SDP: "integration-mid-sdp"
-    DEPLOYMENT_CONFIGURATION: "skamid"
-    INGRESS_HOST: "mid.integration.engageska-portugal.pt"
-    MARK: "skamid or common"
   <<: *test_definition
-  environment:
-    name: "test"
-    url: "http://mid.integration.engageska-portugal.pt/testdb"
-    kubernetes:
-      namespace: $KUBE_NAMESPACE
   only:
     refs:
       - master
@@ -94,26 +73,45 @@ test mid:
 test mid on demand:
   stage: test
   variables:
-    DEPLOYMENT_CONFIGURATION: "skamid"
-    MARK: "skamid or common"
-    HELM_RELEASE: "test-mid-$CI_COMMIT_SHORT_SHA"
-    TANGO_DATABASE_DS: "databaseds-tango-base-test-$CI_COMMIT_SHORT_SHA"
-    KUBE_NAMESPACE: "ci-test-mid-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA"
-    KUBE_NAMESPACE_SDP: "ci-test-mid-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA-sdp"
-    INGRESS_HOST: "ci-test-mid-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA.integration.engageska-portugal.pt"
   before_script:
     - echo "About to test MID on demand"
   <<: *test_definition
   <<: *uninstall_definition_after_script
-  environment:
-    name: "test"
-    url: "http://ci-test-mid-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA.integration.engageska-portugal.pt/testdb"
-    kubernetes:
-      namespace: "ci-test-mid-$CI_PROJECT_NAME-$CI_COMMIT_SHORT_SHA"
   when: manual
   only:
     refs:
       - branches
+
+test low:
+  stage: test
+  <<: *test_definition
+  environment:
+  only:
+    refs:
+      - master
+
+test low on demand:
+  stage: test
+  <<: *test_definition
+  <<: *uninstall_definition_after_script
+  when: manual
+  only:
+    refs:
+      - branches
+
+.sdp_config_dump_template: &sdp_config_dump_definition
+  tags:
+  - docker-executor
+  script:
+  - echo "SDP CONFIG DUMP TEMPLATE"
+  when: manual
+
+sdp_config_dump_mid:
+  stage: debug
+  only:
+    refs:
+      - master
+  <<: *sdp_config_dump_definition
 
 
 tag_commit:
@@ -135,6 +133,55 @@ tag_commit:
 #
 # variables:
 #   CHARTS_TO_PUBLISH: tea
+
+clean_staging_low:
+  stage: clean_staging
+  tags:
+    - k8srunner
+  only:
+    refs:
+      - tags
+  script:
+  - *uninstall_scripts
+  #needs:
+  #  - job: tag_commit
+
+clean_staging_mid:
+  stage: clean_staging
+  tags:
+    - k8srunner
+  only:
+    refs:
+      - tags
+  script:
+  - *uninstall_scripts
+  #needs:
+  #  - job: tag_commit
+
+deploy_staging_low:
+  stage: deploy_staging
+  tags:
+    - k8srunner
+  script:
+    - echo "Deploying STAGING LOW"
+  only:
+    refs:
+      - tags
+  needs:
+    - job: clean_staging_low
+  
+deploy_staging_mid:
+  stage: deploy_staging
+  tags:
+    - k8srunner
+  script:
+    - echo "Deploying STAGING MID"
+  only:
+    refs:
+      - tags
+  needs:
+    - job: clean_staging_mid
+
 
 include:
   - project: 'ska-telescope/templates-repository'
