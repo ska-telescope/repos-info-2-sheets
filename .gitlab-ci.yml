@@ -20,7 +20,7 @@ stages:
   script:
   - &uninstall_scripts |
     echo "Uninstall_template being executed"
-    echo "DELETE == "true" #(so someone means business)
+    echo "DELETE == \"true" #(so someone means business)
   only:
     refs:
       - master
