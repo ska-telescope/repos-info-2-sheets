@@ -189,7 +189,6 @@ function releaseSKAMPIIfNoError() {
     if [ "$checkReleaseExists" != "$tag_name" ]; then
 		git_username=$1
         deleteTag $git_username
-        # deleteImageFromNexus
     fi
   fi
 }
