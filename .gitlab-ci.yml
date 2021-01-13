@@ -120,8 +120,8 @@ tag_commit:
     - k8srunner
   when:
     manual
-  needs:
-    - job: publish-chart
+  # needs:
+  #   - job: publish-chart
   only:
     refs:
       - master
