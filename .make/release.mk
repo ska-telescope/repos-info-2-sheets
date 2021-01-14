@@ -86,8 +86,10 @@ create-publish-tag: create-tag push-tag
 config-git:
 	echo "USERNAME = $$USERNAME"
 	echo "EMAILID = $$EMAILID"
+	echo "GITLAB_USER_NAME = $$GITLAB_USER_NAME"
+	echo "GITLAB_USER_NAME = $(GITLAB_USER_NAME)"
 	git config --global user.email $(EMAILID)
-	git config --global user.name $(USERNAME)
+	git config --global user.name $(GITLAB_USER_NAME)
 
 release-skampi: config-git create-publish-tag release-skampi-if-no-error
 
