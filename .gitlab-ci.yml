@@ -120,15 +120,13 @@ tag_commit:
     - k8srunner
   when:
     manual
-  # needs:
-  #   - job: publish-chart
   only:
     refs:
       - master
   script:
     - echo $GITLAB_USER_EMAIL
     - echo $GITLAB_USER_NAME
-    - make release-skampi USERNAME=$GITLAB_USER_NAME EMAILID=$GITLAB_USER_EMAIL # Publish tag on gitlab
+    - make release-skampi USERNAME=$GITLAB_USER_NAME EMAILID=$GITLAB_USER_EMAIL
 
 #
 # variables:
