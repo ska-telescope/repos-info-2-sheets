@@ -119,7 +119,9 @@ tag_commit:
   tags:
     - k8srunner
   when:
-    manual
+    always
+  # when:
+  #   manual
   only:
     refs:
       - master
