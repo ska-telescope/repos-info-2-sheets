@@ -123,7 +123,7 @@ function gitPush() {
   echo "USERNAME: $USERNAME"
   git_username=$1
   echo "\$1: $1"
-  private_token=$(awk -F= '/^private_token=/{print $2}' .release)
+  private_token=$PRIVATE_TOKEN
   echo "tag: $tag"
   $(git push https://"$git_username":"$private_token"@gitlab.com/ska-telescope/stupid.git "$tag")
   result=$(echo $?)
@@ -144,7 +144,7 @@ function releaseSKAMPI() {
   name=$(getRelease)
   tag_name=$(getRelease)
   release_notes=$(getReleaseDescription)
-  private_token=$(awk -F= '/^private_token=/{print $2}' .release)
+  private_token=$PRIVATE_TOKEN
   data1=('{ "name": "'$name'", "tag_name": "'$tag_name'", "description": "'"$release_notes"'"}')
   result=$(curl --header 'Content-Type: application/json' \
                 --header  "PRIVATE-TOKEN: "$private_token \
@@ -156,7 +156,7 @@ function releaseSKAMPI() {
 # Delete released SKAMPI-prototype with version given in .release file
 function deleteSKAMPIRelease() {
   tag_name=$(getRelease)
-  private_token=$(awk -F= '/^private_token=/{print $2}' .release)
+  private_token=$PRIVATE_TOKEN
   target="https://gitlab.com/api/v4/projects/""$CI_PROJECT_ID""/releases/"$tag_name
   result=$(curl --request DELETE --header "PRIVATE-TOKEN: "$private_token "$target")
   echo "result = $result"
@@ -166,7 +166,7 @@ function deleteTag() {
   tag=$(awk -F= '/^tag=/{print $2}' .release)
   git_username=$1
   echo "\$delete: $git_username"
-  private_token=$(awk -F= '/^private_token=/{print $2}' .release)
+  private_token=$PRIVATE_TOKEN
   git push --delete https://"$git_username":"$private_token"@gitlab.com/ska-telescope/stupid.git "$tag"
 }
 
@@ -174,7 +174,7 @@ function deleteTag() {
 # If there is an error while creating GitLab release, published tag and docker (with same version number) image will be deleted.)
 function releaseSKAMPIIfNoError() {
   tag_name=$(getRelease)
-  private_token=$(awk -F= '/^private_token=/{print $2}' .release)
+  private_token=$PRIVATE_TOKEN
   echo "CHECKING IF THIS RELEASE ALREADY EXISTS. IF IT DOES NOT EXISTS, IT WILL GIVE KeyError: 'tag_name' (EXPECTED BEHAVIOUR)."
   releaseAlreadyExists=$(curl --header "PRIVATE-TOKEN: "$private_token "https://gitlab.com/api/v4/projects/""$CI_PROJECT_ID""/releases/""$tag_name" | \
   python3 -c "import sys, json; print(json.load(sys.stdin)['tag_name'])")
