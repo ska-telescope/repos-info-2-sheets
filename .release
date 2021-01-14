@@ -1,5 +1,5 @@
-release=0.1.9
-tag=0.1.9
+release=0.1.8
+tag=0.1.8
 tag_description=This is a tag description text.
 release_notes=This release Contains: <br/><ul>
 <li>Testing the tagging more thoroughly</li></ul><br/>

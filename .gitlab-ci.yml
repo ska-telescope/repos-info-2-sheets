@@ -128,10 +128,10 @@ tag_commit:
   script:
     - echo $GITLAB_USER_EMAIL
     - echo $GITLAB_USER_NAME
-    # - make release-skampi
-    - make config-git USERNAME=$GITLAB_USER_NAME EMAILID=$GITLAB_USER_EMAIL
-    - make create-publish-tag USERNAME=$GITLAB_USER_NAME EMAILID=$GITLAB_USER_EMAIL
-    - make release-skampi-if-no-error USERNAME=$GITLAB_USER_NAME EMAILID=$GITLAB_USER_EMAIL
+    - make release-skampi USERNAME="$GITLAB_USER_NAME" EMAILID=$GITLAB_USER_EMAIL
+    # - make config-git USERNAME=$GITLAB_USER_NAME EMAILID=$GITLAB_USER_EMAIL
+    # - make create-publish-tag USERNAME=$GITLAB_USER_NAME EMAILID=$GITLAB_USER_EMAIL
+    # - make release-skampi-if-no-error USERNAME=$GITLAB_USER_NAME EMAILID=$GITLAB_USER_EMAIL
 
 #
 # variables:
