@@ -9,5 +9,5 @@ dependencies:
   version: 0.1.29
   repository: https://nexus.engageska-portugal.pt/repository/helm-chart
 - name: tea
-  version: 0.1.28
+  version: 0.1.29
   repository: https://nexus.engageska-portugal.pt/repository/helm-chart
