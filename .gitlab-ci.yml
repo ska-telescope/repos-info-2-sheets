@@ -3,7 +3,6 @@ image: nexus.engageska-portugal.pt/ska-docker/deploy:0.4.3
 variables:
   MINIKUBE: "false"
   VALUES: "pipeline.yaml"
-  DIRTY_CHECK: "true"
 
 stages:
   - clean
