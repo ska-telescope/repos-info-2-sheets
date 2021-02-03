@@ -13,7 +13,7 @@ if [[ "$CI_PROJECT_NAME" = "stupid" ]] && [[ -v CI_COMMIT_TAG ]]; then
     echo "######## Validating $chart version #########"
     version=$(grep -oP '(?<=^version:\s)[^:]*' charts/$chart/Chart.yaml)
     app_version=$(grep -oP '(?<=^appVersion:\s)[^:]*' charts/$chart/Chart.yaml)
-    if [[ version == *"-"* ]] || [[ app_version == *"-"* ]]; then
+    if [[ "$version" == *"-"* ]] || [[ "$app_version" == *"-"* ]]; then
       echo "Create Merge Request with non-dirty version numbers for the Umbrella Charts."
       exit 1
     fi
