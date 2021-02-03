@@ -8,7 +8,7 @@ fi
 
 # Validate charts
 [ -z "$CHARTS_TO_PUBLISH" ] && export CHARTS_TO_PUBLISH=$(cd charts; ls -d */)
-if [[ $DIRTY_CHECK = true ]] && [[ -z CI_COMMIT_TAG ]]; then
+if [[ "$DIRTY_CHECK" = "true" ]] && [[ -z "$CI_COMMIT_TAG" ]]; then
   for chart in $CHARTS_TO_PUBLISH; do
     echo "######## Validating $chart #########"
     version=$(grep -oP '(?<=^version:\s)[^:]*' $chart)
