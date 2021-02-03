@@ -6,6 +6,20 @@ else
   echo "No charts directory found" 
 fi
 
+# Validate charts
+[ -z "$CHARTS_TO_PUBLISH" ] && export CHARTS_TO_PUBLISH=$(cd charts; ls -d */)
+if [[ "$DIRTY_CHECK" = "true" ]] && [[ -z "$CI_COMMIT_TAG" ]]; then
+  for chart in $CHARTS_TO_PUBLISH; do
+    echo "######## Validating $chart #########"
+    version=$(grep -oP '(?<=^version:\s)[^:]*' $chart)
+    app_version=$(grep -oP '(?<=^appVersion:\s)[^:]*' $chart)
+    if [[ version == *"-"* ]] || [[ app_version == *"-"* ]]; then
+      echo "Create Merge Request with non-dirty version numbers for the Umbrella Charts."
+      exit 1
+    fi
+  done
+fi
+
 # # install helm
 # curl -fsSL -o get_helm.sh https://raw.githubusercontent.com/helm/helm/master/scripts/get-helm-3
 # chmod 700 get_helm.sh
@@ -23,7 +37,6 @@ helm search repo skatelescope
 helm search repo skatelescope >> ./chart-repo-cache/before
 
 # Package charts
-[ -z "$CHARTS_TO_PUBLISH" ] && export CHARTS_TO_PUBLISH=$(cd charts; ls -d */)
 NEW_CHART_COUNT=0
 for chart in $CHARTS_TO_PUBLISH; do
   echo "######## Packaging $chart #########"
