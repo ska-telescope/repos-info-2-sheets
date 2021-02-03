@@ -190,6 +190,16 @@ publish-chart:
   script:
     - curl -s https://gitlab.com/ska-telescope/stupid/-/raw/st-622-umbrella-chart-example/scripts/publish-charts.sh | bash
 
+version_bump_charts:
+  stage: update_versions
+  tags:
+    - k8srunner
+  only:
+    refs:
+      - tags
+  script:
+    - curl -s https://gitlab.com/ska-telescope/templates-repository/-/raw/master/scripts/version_bump_charts.sh | bash
+
 include:
   - project: 'ska-telescope/templates-repository'
     file: 'gitlab-ci/includes/helm_publish.yml'
