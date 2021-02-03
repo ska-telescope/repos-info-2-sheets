@@ -8,12 +8,12 @@ fi
 
 # Validate charts
 [ -z "$CHARTS_TO_PUBLISH" ] && export CHARTS_TO_PUBLISH=$(cd charts; ls -d */)
-if [[ "$DIRTY_CHECK" = "true" ]] && [[ -z "$CI_COMMIT_TAG" ]]; then
+if [[ "$CI_PROJECT_NAME" = "skampi" ]] && [[ -v CI_COMMIT_TAG ]]; then
   for chart in $CHARTS_TO_PUBLISH; do
-    echo "######## Validating $chart #########"
-    version=$(grep -oP '(?<=^version:\s)[^:]*' $chart)
-    app_version=$(grep -oP '(?<=^appVersion:\s)[^:]*' $chart)
-    if [[ version == *"-"* ]] || [[ app_version == *"-"* ]]; then
+    echo "######## Validating $chart version #########"
+    version=$(grep -oP '(?<=^version:\s)[^:]*' charts/$chart/Chart.yaml)
+    app_version=$(grep -oP '(?<=^appVersion:\s)[^:]*' charts/$chart/Chart.yaml)
+    if [[ "$version" == *"-"* ]] || [[ "$app_version" == *"-"* ]]; then
       echo "Create Merge Request with non-dirty version numbers for the Umbrella Charts."
       exit 1
     fi
