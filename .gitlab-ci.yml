@@ -186,9 +186,6 @@ deploy_staging_mid:
 
 publish-chart:
   when: on_success
-  only:
-    refs: 
-      - branches
 
 include:
   - project: 'ska-telescope/templates-repository'
