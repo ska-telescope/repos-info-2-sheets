@@ -13,6 +13,7 @@ stages:
   - release
   - clean_staging
   - deploy_staging
+  - update_versions
 
 .uninstall_template: &uninstall_definition
   tags:
