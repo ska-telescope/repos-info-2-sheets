@@ -34,13 +34,15 @@ function incr_semver() {
 for CHART in charts/*/Chart.yaml; do
     echo $CHART
     app_version=$(grep -oP '(?<=^appVersion:\s)[^:]*' $CHART)
+    app_version_string=$(grep -oP '(^appVersion:\s)[^:]*' $CHART)
     chart_version=$(grep -oP '(?<=^version:\s)[^:]*' $CHART)
+    chart_version_string=$(grep -oP '(^version:\s)[^:]*' $CHART)
     echo "Current app_version of $CHART: $app_version"
     last_version=$(grep -oP '(?<=^appVersion:\s)[^:]*' $CHART | sed -nr 's/^[^0-9]*(([0-9]+\.)*[0-9]+).*/\1/p')
     echo "Clean version: $last_version"
     increased_version=$(incr_semver $last_version 'minor')
     echo "Increased to next minor: $increased_version"
-    sed -i 's/$app_version/appVersion:\ $increased_version/' $CHART 
-    sed -i 's/$app_version/appVersion:\ $increased_version/' $CHART 
+    sed -i "s/$app_version_string/appVersion:\ $increased_version-dev/" $CHART 
+    sed -i "s/$chart_version_string/appVersion:\ $increased_version-dev/" $CHART 
     echo
 done
