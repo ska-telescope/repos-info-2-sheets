@@ -43,6 +43,6 @@ for CHART in charts/*/Chart.yaml; do
     increased_version=$(incr_semver $last_version 'minor')
     echo "Increased to next minor: $increased_version"
     sed -i "s/$app_version_string/appVersion:\ $increased_version-dev/" $CHART 
-    sed -i "s/$chart_version_string/appVersion:\ $increased_version-dev/" $CHART 
+    sed -i "s/$chart_version_string/version:\ $increased_version-dev/" $CHART 
     echo
 done
