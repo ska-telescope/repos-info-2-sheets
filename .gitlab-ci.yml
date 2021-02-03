@@ -184,6 +184,11 @@ deploy_staging_mid:
   needs:
     - job: clean_staging_mid
 
+publish-chart:
+  when: on_success
+  only:
+    refs: 
+      - master
 
 include:
   - project: 'ska-telescope/templates-repository'
