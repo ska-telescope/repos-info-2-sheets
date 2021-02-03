@@ -188,7 +188,7 @@ publish-chart:
   when: on_success
   only:
     refs: 
-      - master
+      - branches
 
 include:
   - project: 'ska-telescope/templates-repository'
@@ -198,3 +198,4 @@ include:
   # https://developer.skatelescope.org/en/latest/tools/continuousintegration.html#automated-collection-of-ci-health-metrics-as-part-of-the-ci-pipeline
   - project: 'ska-telescope/templates-repository'
     file: 'gitlab-ci/includes/post_step.yml'
+            
