@@ -3,6 +3,7 @@ image: nexus.engageska-portugal.pt/ska-docker/deploy:0.4.3
 variables:
   MINIKUBE: "false"
   VALUES: "pipeline.yaml"
+  DIRTY_CHECK: "true"
 
 stages:
   - clean
@@ -186,6 +187,8 @@ deploy_staging_mid:
 
 publish-chart:
   when: on_success
+  script:
+    - curl -s https://gitlab.com/ska-telescope/stupid/-/raw/st-622-umbrella-chart-example/scripts/publish-charts.sh | bash
 
 include:
   - project: 'ska-telescope/templates-repository'
