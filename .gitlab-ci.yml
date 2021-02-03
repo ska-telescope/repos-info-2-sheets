@@ -186,8 +186,6 @@ deploy_staging_mid:
 
 publish-chart:
   when: on_success
-  script:
-    - curl -s https://gitlab.com/ska-telescope/stupid/-/raw/st-622-umbrella-chart-example/scripts/publish-charts.sh | bash
 
 include:
   - project: 'ska-telescope/templates-repository'
