@@ -197,7 +197,7 @@ version_bump_charts:
       - tags
   script:
     - curl -s https://gitlab.com/ska-telescope/templates-repository/-/raw/master/scripts/version_bump_charts.sh | bash
-    - make commit-and-push-to-master USERNAME="$project_14654456_bot" EMAILID=$GITLAB_USER_EMAIL PRIVATE_TOKEN=$PROJECT_ACCESS_TOKEN
+    - make commit-and-push-to-master USERNAME="$GITLAB_USER_NAME" EMAILID=$GITLAB_USER_EMAIL PRIVATE_TOKEN=$PROJECT_ACCESS_TOKEN
 
 include:
   - project: 'ska-telescope/templates-repository'
