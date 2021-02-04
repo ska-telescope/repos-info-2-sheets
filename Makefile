@@ -2,7 +2,7 @@
 MAKEPATH := $(abspath $(lastword $(MAKEFILE_LIST)))
 BASEDIR := $(notdir $(patsubst %/,%,$(dir $(MAKEPATH))))
 
-DEPLOYMENT_CONFIGURATION ?= skamid## umbrella chart to work with
+DEPLOYMENT_CONFIGURATION ?= breakfast## umbrella chart to work with
 HELM_HOST ?= https://nexus.engageska-portugal.pt## helm host url https
 MINIKUBE ?= true## Minikube or not
 UMBRELLA_CHART_PATH = ./charts/$(DEPLOYMENT_CONFIGURATION)/##

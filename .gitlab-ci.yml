@@ -13,6 +13,7 @@ stages:
   - release
   - clean_staging
   - deploy_staging
+  - update_versions
 
 .uninstall_template: &uninstall_definition
   tags:
@@ -118,10 +119,10 @@ tag_commit:
   stage: release
   tags:
     - k8srunner
-  when:
-    always
   # when:
-  #   manual
+  #   always
+  when:
+    manual
   only:
     refs:
       - master
@@ -184,6 +185,20 @@ deploy_staging_mid:
   needs:
     - job: clean_staging_mid
 
+publish-chart:
+  when: on_success
+
+version_bump_charts:
+  stage: update_versions
+  tags:
+    - k8srunner
+  only:
+    refs:
+      - tags
+  script:
+    - curl -s https://gitlab.com/ska-telescope/templates-repository/-/raw/st-622-testing/scripts/version_bump_charts.sh | bash
+    # - curl -s https://gitlab.com/ska-telescope/templates-repository/-/raw/master/scripts/version_bump_charts.sh | bash
+    - make commit-and-push-to-master USERNAME="$GITLAB_USER_NAME" EMAILID=$GITLAB_USER_EMAIL PRIVATE_TOKEN=$SKAMPI_RELEASE_MANAGER_GITLAB_PRIVATE_TOKEN
 
 include:
   - project: 'ska-telescope/templates-repository'
@@ -193,3 +208,4 @@ include:
   # https://developer.skatelescope.org/en/latest/tools/continuousintegration.html#automated-collection-of-ci-health-metrics-as-part-of-the-ci-pipeline
   - project: 'ska-telescope/templates-repository'
     file: 'gitlab-ci/includes/post_step.yml'
+            

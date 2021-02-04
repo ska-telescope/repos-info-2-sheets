@@ -12,3 +12,4 @@ docstatus/repos
 build
 .pytest_cache
 Pipfile.lock
+Chart.lock
