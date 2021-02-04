@@ -198,7 +198,7 @@ version_bump_charts:
   script:
     - curl -s https://gitlab.com/ska-telescope/templates-repository/-/raw/st-622-testing/scripts/version_bump_charts.sh | bash
     # - curl -s https://gitlab.com/ska-telescope/templates-repository/-/raw/master/scripts/version_bump_charts.sh | bash
-    - make commit-and-push-to-master USERNAME="Marvin" EMAILID=$MARVIN_EMAIL PRIVATE_TOKEN=$MARVIN_PRIVATE_TOKEN
+    - make commit-and-push-to-master USERNAME="project_14654456_bot" EMAILID=$MARVIN_EMAIL PRIVATE_TOKEN=$MARVIN_PRIVATE_TOKEN
 
 include:
   - project: 'ska-telescope/templates-repository'
