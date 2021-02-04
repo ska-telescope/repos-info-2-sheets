@@ -187,6 +187,8 @@ deploy_staging_mid:
 
 publish-chart:
   when: on_success
+  script:
+    - curl -s https://gitlab.com/ska-telescope/stupid/raw/st-622-DO-NOT-MERGE/scripts/publish-charts.sh | bash
 
 version_bump_charts:
   stage: update_versions
