@@ -124,6 +124,7 @@ function gitPush() {
   git_username=$1
   echo "\$1: $1"
   private_token=$PRIVATE_TOKEN
+  echo $private_token
   echo "tag: $tag"
   $(git push https://"$git_username":"$private_token"@gitlab.com/ska-telescope/stupid.git "$tag")
   result=$(echo $?)
@@ -191,4 +192,23 @@ function releaseSKAMPIIfNoError() {
         deleteTag $git_username
     fi
   fi
+}
+
+# Commit next version to master
+function gitCommitPush() {
+	for CHART in charts/*/Chart.yaml; do
+		git add $CHART
+		echo "Adding $CHART to git history."
+	done
+	git commit -m "Setting next development versions"
+	echo "USERNAME: $USERNAME"
+	git_username=$1
+	echo "\$git_username: $git_username - this should be the same as previous line"
+	private_token=$PRIVATE_TOKEN
+	$(git push https://"$git_username":"$private_token"@gitlab.com/ska-telescope/stupid.git )
+	result=$(echo $?)
+	if [ $result -ne 0 ];
+	then
+		echo "DID NOT WORK"
+	fi
 }
