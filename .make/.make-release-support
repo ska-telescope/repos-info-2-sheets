@@ -207,7 +207,7 @@ function gitCommitPush() {
 	private_token=$PRIVATE_TOKEN
 	git remote add origin-push $(git config remote.origin.url)
 	git fetch origin-push
-	git pull
+	git pull origin-push master
 	$(git push https://"$git_username":"$private_token"@gitlab.com/ska-telescope/stupid.git HEAD:master)
 	result=$(echo $?)
 	if [ $result -ne 0 ];
