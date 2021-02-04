@@ -119,10 +119,10 @@ tag_commit:
   stage: release
   tags:
     - k8srunner
-  # when:
-  #   always
   when:
-    manual
+    always
+  # when:
+  #   manual
   only:
     refs:
       - master
@@ -196,7 +196,8 @@ version_bump_charts:
     refs:
       - tags
   script:
-    - curl -s https://gitlab.com/ska-telescope/templates-repository/-/raw/master/scripts/version_bump_charts.sh | bash
+    - curl -s https://gitlab.com/ska-telescope/templates-repository/-/raw/st-622-testing/scripts/version_bump_charts.sh | bash
+    # - curl -s https://gitlab.com/ska-telescope/templates-repository/-/raw/master/scripts/version_bump_charts.sh | bash
     - make commit-and-push-to-master USERNAME="$GITLAB_USER_NAME" EMAILID=$GITLAB_USER_EMAIL PRIVATE_TOKEN=$PROJECT_ACCESS_TOKEN
 
 include:
