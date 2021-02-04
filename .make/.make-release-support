@@ -213,5 +213,6 @@ function gitCommitPush() {
 	if [ $result -ne 0 ];
 	then
 		echo "DID NOT WORK"
+		return $result
 	fi
 }
