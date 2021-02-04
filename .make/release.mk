@@ -97,5 +97,8 @@ delete-tag: .release
 release-skampi-if-no-error: .release
 	@. $(RELEASE_SUPPORT) ; releaseSKAMPIIfNoError $$USERNAME
 
-commit-and-push-to-master: config-git
+fetch-and-pull-master:
+	@ .$(RELEASE_SUPPORT) ; gitFetchPull $$USERNAME
+
+commit-and-push-to-master: config-git fetch-and-pull-master
 	@. $(RELEASE_SUPPORT) ; gitCommitPush $$USERNAME

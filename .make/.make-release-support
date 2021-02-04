@@ -194,6 +194,19 @@ function releaseSKAMPIIfNoError() {
   fi
 }
 
+function gitFetchPull() {
+	git_username=$1
+    git remote add origin-push $(git config remote.origin.url)
+    git fetch origin-push
+    $(git pull origin-push master)
+	result=$(echo $?)
+	if [ $result -ne 0 ];
+	then
+		echo "DID NOT WORK"
+		return $result
+	fi
+}
+
 # Commit next version to master
 function gitCommitPush() {
 	for CHART in charts/*/Chart.yaml; do
@@ -201,13 +214,10 @@ function gitCommitPush() {
 		echo "Adding $CHART to git history."
 	done
 	git commit -m "Setting next development versions"
-	echo "USERNAME: $USERNAME"
+	# echo "USERNAME: $USERNAME"
 	git_username=$1
-	echo "\$git_username: $git_username - this should be the same as previous line"
+	# echo "\$git_username: $git_username - this should be the same as previous line"
 	private_token=$PRIVATE_TOKEN
-	git remote add origin-push $(git config remote.origin.url)
-	git fetch origin-push
-	git pull origin-push master
 	$(git push https://"$git_username":"$private_token"@gitlab.com/ska-telescope/stupid.git HEAD:master)
 	result=$(echo $?)
 	if [ $result -ne 0 ];
