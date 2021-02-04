@@ -98,9 +98,9 @@ release-skampi-if-no-error: .release
 	@. $(RELEASE_SUPPORT) ; releaseSKAMPIIfNoError $$USERNAME
 
 fetch-and-pull-master:
-	git remote add origin-push $(git config remote.origin.url) ;
-    git fetch origin-push ;
-    git pull origin-push master ;
+	git remote add origin-push $(git config remote.origin.url) \
+    git fetch origin-push \
+    git pull origin-push master
 
 commit-and-push-to-master: config-git fetch-and-pull-master
 	@. $(RELEASE_SUPPORT) ; gitCommitPush $$USERNAME
