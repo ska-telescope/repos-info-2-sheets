@@ -18,6 +18,16 @@ if [[ "$CI_PROJECT_NAME" = "skampi" ]] && [[ -v CI_COMMIT_TAG ]]; then
       exit 1
     fi
   done
+elif [[ "$CI_PROJECT_NAME" = "skampi" ]] && [[ "$CI_COMMIT_BRANCH" != "$CI_DEFAULT_BRANCH" ]]; then
+  for chart in $CHARTS_TO_PUBLISH; do
+    echo "######## Validating $chart version #########"
+    version=$(grep -oP '(?<=^version:\s)[^:]*' charts/$chart/Chart.yaml)
+    app_version=$(grep -oP '(?<=^appVersion:\s)[^:]*' charts/$chart/Chart.yaml)
+    if [[ "$version" != *"-"* ]] || [[ "$app_version" != *"-"* ]]; then
+      echo "Change Umbrella charts to a dirty version while working on a branch."
+      exit 0
+    fi
+  done
 fi
 
 # # install helm
