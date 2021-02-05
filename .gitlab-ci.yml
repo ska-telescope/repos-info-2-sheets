@@ -186,8 +186,6 @@ deploy_staging_mid:
 
 publish-chart:
   when: on_success
-  except:
-    - st-622-fix-branch-auto-deploy
 
 include:
   - project: 'ska-telescope/templates-repository'
