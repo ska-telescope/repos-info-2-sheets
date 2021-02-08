@@ -4,14 +4,14 @@ metadata:
   name: {{ include "coffee.fullname" . }}
   labels:
 {{ include "coffee.labels" . | indent 4 }}
-volumes:
-  - name: config
-    configMap:
-      name: nginx-config
-volumeMounts:
-  - name: config
-    mountPath: /etc/nginx/nginx.conf
-    subPath: nginx.conf
+# volumes:
+#   - name: config
+#     configMap:
+#       name: nginx-config
+# volumeMounts:
+#   - name: config
+#     mountPath: /etc/nginx/nginx.conf
+#     subPath: nginx.conf
 spec:
   replicas: {{ .Values.replicaCount }}
   selector:
