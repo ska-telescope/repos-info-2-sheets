@@ -72,8 +72,14 @@ echo Found $NEW_CHART_COUNT charts ready to add to the SKA repository.
 # rebuild index
 helm repo index ./chart-repo-cache --merge ./chart-repo-cache/skatelescope-index.yaml
 
+curl -s https://gitlab.com/ska-telescope/templates-repository/-/raw/st-758/scripts/metadata/extract-metadata.sh -o extract-metadata.sh && chmod +x extract-metadata.sh
+curl -s https://gitlab.com/ska-telescope/templates-repository/-/raw/st-758/scripts/metadata/patch-metadata.sh -o patch-metadata.sh && chmod +x patch-metadata.sh
+
+./extract-metadata.sh MANIFEST.skao.int 
+
 for file in ./chart-repo-cache/*.tgz; do
   echo "######### UPLOADING ${file##*/}";
+  ./patch-metadata.sh ${file} MANIFEST.skao.int
   curl -v -u $HELM_USERNAME:$HELM_PASSWORD --upload-file ${file} $HELM_HOST/repository/helm-chart/${file##*/};
 done
 # Nexus index.yaml updates the index file somehow - not all helm repos do that. TODO: figure out how.
