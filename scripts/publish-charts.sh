@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "This script is deprecated. SKA Docker image ska-k8s-tools/deploy:0.4.8 contains a newer version in the folder /usr/local/bin" 
+echo "This script is deprecated. SKA Docker image ska-k8s-tools/deploy:0.4.9 contains a newer version in the folder /usr/local/bin" 
 
 if [[ -d charts ]]; then 
   ls -la 
@@ -48,9 +48,12 @@ helm repo update
 helm search repo skatelescope
 helm search repo skatelescope >> ./chart-repo-cache/before
 
-curl -s https://gitlab.com/ska-telescope/templates-repository/-/raw/master/scripts/metadata/extract-metadata.sh -o extract-metadata.sh && chmod +x extract-metadata.sh
-
-./extract-metadata.sh MANIFEST.skao.int 
+if [ ! -f /usr/local/bin/extract-metadata.sh ]; then
+  curl https://gitlab.com/ska-telescope/ska-k8s-tools/-/raw/master/docker/deploy/scripts/extract-metadata.sh -o extract-metadata.sh && chmod +x extract-metadata.sh
+  ./extract-metadata.sh MANIFEST.skao.int 
+else
+  /usr/local/bin/extract-metadata.sh MANIFEST.skao.int 
+fi
 
 # Package charts
 NEW_CHART_COUNT=0
