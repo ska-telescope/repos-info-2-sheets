@@ -53,6 +53,9 @@ uninstall low:
   tags:
   - k8srunner
   script:
+  - echo -e "section_start:`date +%s`:requirements_section[collapsed=true]\r\e[0KThis is the pip install requirements section - expand if you want to see it:"
+  - pip install -r test-requirements.txt
+  - echo -e "section_end:`date +%s`:requirements_section\r\e[0K"
   - echo "Test Template Definition"
   # artifacts:
   #   name: "$CI_PROJECT_NAME-$CI_JOB_ID"
